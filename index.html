@@ -1,0 +1,782 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STOCK.PRO.STUDIOS</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --bg-2: #ffffff;
+      --panel: #ffffff;
+      --line: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-2: #3b82f6;
+      --dark: #111827;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button { font: inherit; cursor: pointer; border: none; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active-link {
+      background: #eff6ff;
+      color: var(--text);
+    }
+
+    .book-button {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 12px 18px !important;
+      border-radius: 16px !important;
+      font-weight: 700;
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.18);
+    }
+
+    .book-button:hover { background: var(--accent-2); }
+
+    .mobile-toggle {
+      display: none;
+      background: var(--accent);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+    }
+
+    .mobile-nav {
+      display: none;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px 20px;
+    }
+
+    .mobile-nav.open { display: grid; gap: 10px; }
+
+    .mobile-nav a {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .mobile-nav a.book-button-mobile {
+      background: var(--accent);
+      color: white;
+      border-color: transparent;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .hero {
+      padding: 84px 0 70px;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,0.08), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(37,99,235,0.04), transparent 26%),
+        linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.9);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      margin: 0;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 20px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-block;
+      padding: 15px 22px;
+      border-radius: 18px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.18);
+    }
+
+    .secondary-btn {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .secondary-btn:hover { background: #f8fafc; }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+   .placeholder,
+.placeholder-small,
+.placeholder-large {
+  border-radius: 18px;
+  border: none;
+  background: none;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+}
+    }
+
+    img.placeholder-small,
+    img.placeholder-large {
+      border: none;
+      border-radius: 12px;
+      box-shadow: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .placeholder-large { min-height: 420px; }
+    .placeholder-small { min-height: 260px; }
+
+    .section { padding: 78px 0; }
+
+    .section-title-wrap {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      margin: 0;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card,
+    .service-card,
+    .discount-card,
+    .price-card,
+    .contact-panel,
+    .form-panel {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06);
+    }
+
+    .card,
+    .service-card,
+    .discount-card,
+    .price-card,
+    .contact-panel,
+    .form-panel {
+      padding: 28px;
+    }
+
+    .card h3,
+    .service-card h3,
+    .discount-card h3,
+    .price-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card p,
+    .service-card p,
+    .discount-card p,
+    .price-card p,
+    .contact-panel p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .services-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .service-card {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .discount-layout,
+    .book-layout,
+    .price-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .feature-pill {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--text);
+      line-height: 1.5;
+      background: #ffffff;
+    }
+
+    .contact-panel {
+      background: #111827;
+    }
+
+    .contact-panel p { color: #cbd5e1; }
+
+    .form-panel {
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .price-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .price-row {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      background: #ffffff;
+    }
+
+    .price-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .price-tag {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-panel input,
+    .form-panel select,
+    .form-panel textarea {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid #d6dee8;
+      font: inherit;
+      outline: none;
+      background: #ffffff;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-panel input:focus,
+    .form-panel select:focus,
+    .form-panel textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
+
+    .form-panel textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .field-gap { margin-top: 14px; }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--accent);
+      color: white;
+      border-radius: 18px;
+      font-weight: 700;
+      box-shadow: 0 10px 26px rgba(37,99,235,0.18);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      margin-top: 30px;
+      background: #ffffff;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-links a.book-footer {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .discount-layout,
+      .book-layout,
+      .price-layout,
+      .service-card,
+      .form-grid-2,
+      .feature-grid,
+      .card-grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .image-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 840px) {
+      .nav { display: none; }
+      .mobile-toggle { display: inline-block; }
+      .hero { padding-top: 56px; }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner,
+      .container,
+      .footer-inner,
+      .mobile-nav {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .section { padding: 58px 0; }
+      .price-row,
+      .card,
+      .service-card,
+      .discount-card,
+      .price-card,
+      .contact-panel,
+      .form-panel { padding: 22px; }
+      .placeholder-large { min-height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#home" class="brand" onclick="showPage('home')">STOCK.PRO.STUDIOS</a>
+
+      <nav class="nav">
+        <a href="#home" data-page="home" class="active-link" onclick="showPage('home')">Home</a>
+        <a href="#services" data-page="services" onclick="showPage('services')">Services</a>
+        <a href="#discounts" data-page="discounts" onclick="showPage('discounts')">Discounts</a>
+        <a href="#book" data-page="book" class="book-button" onclick="showPage('book')">Book Now</a>
+      </nav>
+
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">Menu</button>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#home" onclick="showPage('home'); closeMobileMenu();">Home</a>
+      <a href="#services" onclick="showPage('services'); closeMobileMenu();">Services</a>
+      <a href="#discounts" onclick="showPage('discounts'); closeMobileMenu();">Discounts</a>
+      <a href="#book" class="book-button-mobile" onclick="showPage('book'); closeMobileMenu();">Book Now</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">STOCK.PRO.STUDIOS</div>
+            <h1></h1>
+            <p style="font-weight:600; color: var(--text); margin-top:14px; font-size: clamp(2.5rem, 6vw, 4rem); line-height:1.05;">Photos that actually stand out.</p>
+            <p>
+              Senior photos, portraits, sports photos, and group photos with a polished look and easy booking process.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#services" class="primary-btn" onclick="showPage('services')">View Services</a>
+              <a href="#book" class="secondary-btn" onclick="showPage('book')">Book Now</a>
+            </div>
+          </div>
+
+          <div class="image-grid" style="grid-template-columns: 1fr;">
+           <img src="pics/Home.jpg" class="placeholder-large">          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="container">
+          <div class="section-title-wrap">
+            <h2>Services available.</h2>
+          </div>
+
+          <div class="card-grid-4">
+            <div class="card">
+              <h3>Senior Photos</h3>
+              <p>Clean portraits for graduation season and beyond.</p>
+            </div>
+            <div class="card">
+              <h3>Portraits</h3>
+              <p>Modern personal photos for social media or personal use.</p>
+            </div>
+            <div class="card">
+              <h3>Sports Photos</h3>
+              <p>Athlete-focused images with energy and detail.</p>
+            </div>
+            <div class="card">
+              <h3>Group Photos</h3>
+              <p>Great for teams, friends, or multiple people together.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="page">
+      <div class="section">
+        <div class="container">
+          <div class="section-title-wrap">
+            <div class="section-kicker">Services</div>
+            <h2>What STOCK.PRO.STUDIOS offers.</h2>
+          </div>
+
+          <div class="services-list">
+            <div class="service-card">
+              <div>
+                <div class="section-kicker">01</div>
+                <h3>Senior Photos</h3>
+                <p>Clean, polished portraits built for graduation season, announcements, and social media.</p>
+              </div>
+              <img src="pics/senior.jpg" class="placeholder-large">            </div>
+
+            <div class="service-card">
+              <div>
+                <div class="section-kicker">02</div>
+                <h3>Portraits</h3>
+                <p>Simple and professional portrait sessions for anyone wanting high-quality personal photos.</p>
+              </div>
+          <img src="pics/potraits.jpg" class="placeholder-large">            </div>
+
+            <div class="service-card">
+              <div>
+                <div class="section-kicker">03</div>
+                <h3>Sports Photos</h3>
+                <p>Focused on athletes and action-inspired portraits with a sharp, energetic look.</p>
+              </div>
+              <img src="pics/sports photos.jpg" class="placeholder-large">            </div>
+
+            <div class="service-card">
+              <div>
+                <div class="section-kicker">04</div>
+                <h3>Group Photos</h3>
+                <p>Perfect for teams, friend groups, or multiple people wanting photos together.</p>
+              </div>
+             <img src="pics/group photo.jpg" class="placeholder-large">            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="discounts" class="page">
+      <div class="section">
+        <div class="container">
+          <div class="section-title-wrap">
+            <div class="section-kicker">Discounts</div>
+            <h2>Discounts available.</h2>
+          </div>
+
+          <div class="discount-layout">
+            <div class="discount-card">
+              <h3>Instagram discount</h3>
+              <p>Shout me out on Instagram for $20 off your session.</p>
+            </div>
+          <img src="pics/discount.jpg" class="placeholder-large">          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="page">
+      <div class="section">
+        <div class="container">
+          <div class="section-title-wrap">
+            <div class="section-kicker">Book Now</div>
+            <h2>Pricing and booking.</h2>
+          </div>
+
+          <div class="book-layout">
+            <div class="price-card">
+              <h3>Session options</h3>
+              <div class="price-stack">
+                <div class="price-row">
+                  <div class="price-line">
+                    <strong>Mini Session</strong>
+                    <span class="price-tag">$120</span>
+                  </div>
+                  <p>30 minutes • 5 edited pictures • no outfit change</p>
+                </div>
+
+                <div class="price-row">
+                  <div class="price-line">
+                    <strong>1 Hour Session</strong>
+                    <span class="price-tag">$220</span>
+                  </div>
+                  <p>1 hour • 10 edited pictures • 1 outfit change</p>
+                </div>
+
+                <div class="price-row">
+                  <div class="price-line">
+                    <strong>2 Hour Session</strong>
+                    <span class="price-tag">$420</span>
+                  </div>
+                  <p>2 hours • 20 edited pictures • 2 outfit changes</p>
+                </div>
+              </div>
+            </div>
+
+           <div class="form-panel">
+  <h3 style="margin-top:0;">Request a booking</h3>
+
+  <form action="https://formspree.io/f/xpqogvrn" method="POST">
+    <div class="form-grid-2">
+      <input type="text" name="name" placeholder="Full name" required />
+      <input type="text" name="phone" placeholder="Phone number" />
+    </div>
+
+    <div class="form-grid-2 field-gap">
+      <input type="email" name="email" placeholder="Email address" required />
+      <select name="service" required>
+        <option value="">Service</option>
+        <option>Senior Photos</option>
+        <option>Portraits</option>
+        <option>Sports Photos</option>
+        <option>Group Photos</option>
+      </select>
+    </div>
+
+    <div class="form-grid-2 field-gap">
+      <select name="session_length" required>
+        <option value="">Session length</option>
+        <option>Mini Session</option>
+        <option>1 Hour Session</option>
+        <option>2 Hour Session</option>
+      </select>
+      <input type="date" name="date" />
+    </div>
+
+    <div class="field-gap">
+      <input type="text" name="location" placeholder="Preferred location" />
+    </div>
+
+    <div class="field-gap">
+      <textarea name="message" placeholder="Tell me about your shoot"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Request Booking</button>
+  </form>
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div style="font-weight:700; color: var(--text);">STOCK.PRO.STUDIOS</div>
+        <div style="color: var(--muted); margin-top:4px; font-size:0.95rem;">Senior photos, portraits, sports photos, and group photos.</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="#services" onclick="showPage('services')">Services</a>
+        <a href="#discounts" onclick="showPage('discounts')">Discounts</a>
+        <a href="#book" class="book-footer" onclick="showPage('book')">Book Now</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      const navLinks = document.querySelectorAll('.nav a[data-page]');
+
+      pages.forEach(page => page.classList.remove('active'));
+      const nextPage = document.getElementById(pageId);
+      if (nextPage) nextPage.classList.add('active');
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-page') === pageId) {
+          link.classList.add('active-link');
+        } else {
+          link.classList.remove('active-link');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    function closeMobileMenu() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
+
+
+
+
